@@ -1,0 +1,151 @@
+<body>
+  <div class="container">
+    <h1>Registros</h1>
+
+    <div class="alert" [class.hidden]="!showAlert">
+      <div class="alert-text">
+        ⏱️ <strong>Importante:</strong> Dispone de 30 minutos para editar o eliminar sus registros recién agregados.
+        Pasado este tiempo, los botones desaparecerán automáticamente.
+      </div>
+      <button class="alert-close" (click)="closeAlert()">×</button>
+    </div>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Buscar registro..." [(ngModel)]="searchTerm"
+        (input)="onSearch()">
+      <button class="filter-btn" [class.active]="currentFilter" (click)="openFilterModal()">
+        <span *ngIf="!currentFilter">Filtros</span>
+        <span *ngIf="currentFilter">Filtros <span class="close-filter">×</span></span>
+      </button>
+    </div>
+
+    <div id="recordsContainer">
+      <ng-container *ngIf="filteredRecords.length === 0">
+        <p style="text-align: center; color: #999; padding: 20px;">No se encontraron registros</p>
+      </ng-container>
+
+      <ng-container *ngFor="let item of getGroupedRecords()">
+        <div *ngIf="item.type === 'date'" class="date-divider">
+          <span>{{ item.date }}</span>
+        </div>
+
+        <div *ngIf="item.type === 'record'" class="record-card">
+          <div class="name-input-group">
+            <div class="label-btn">Nombre</div>
+            <input type="text" class="name-input" [value]="item.record.fruitName" readonly>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header">
+              <div>Selección</div>
+              <div>Cantidad</div>
+              <div>Peso</div>
+            </div>
+            <div class="table-row">
+              <div class="row-label">1° ra</div>
+              <input type="text" class="table-input" [value]="item.record.qty1ra" readonly>
+              <input type="text" class="table-input" [value]="item.record.weight1ra + 'kg'" readonly>
+            </div>
+            <div class="table-row">
+              <div class="row-label">3° ra</div>
+              <input type="text" class="table-input" [value]="item.record.qty3ra" readonly>
+              <input type="text" class="table-input" [value]="item.record.weight3ra + 'kg'" readonly>
+            </div>
+            <div class="table-row">
+              <div class="row-label">5° ta</div>
+              <input type="text" class="table-input" [value]="item.record.qty5ta" readonly>
+              <input type="text" class="table-input" [value]="item.record.weight5ta + 'kg'" readonly>
+            </div>
+            <div class="table-row">
+              <div class="row-label">Madura</div>
+              <input type="text" class="table-input" [value]="item.record.qtyMadura" readonly>
+              <input type="text" class="table-input" [value]="item.record.weightMadura + 'kg'" readonly>
+            </div>
+            <div class="table-row with-border">
+              <div class="row-label">Total</div>
+              <input type="text" class="table-input" [value]="item.record.qtyTotal" readonly>
+              <input type="text" class="table-input" [value]="item.record.weightTotal + 'kg'" readonly>
+            </div>
+          </div>
+
+          <div class="action-buttons" *ngIf="canEditRecord(item.record.createdAt)">
+            <button class="btn btn-edit" (click)="openEditModal(item.record)">Editar</button>
+            <button class="btn btn-delete" (click)="deleteRecord(item.record.idHarvest)">Eliminar</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Modal de Filtros -->
+  <div class="modal" [class.active]="showFilterModal" (click)="closeFilterModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Filtros</h2>
+        <button class="modal-close" (click)="closeFilterModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p>¿De qué manera quieres ordenar tus registros?</p>
+        <div class="filter-options">
+          <button class="filter-option" (click)="applyFilter('az')">Nombre A-Z</button>
+          <button class="filter-option" (click)="applyFilter('za')">Nombre Z-A</button>
+          <button class="filter-option" (click)="applyFilter('oldest')">Últimos registros agregados</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edición -->
+  <div class="edit-modal" [class.active]="showEditModal" (click)="closeEditModal()">
+    <div class="edit-modal-content" (click)="$event.stopPropagation()">
+      <div class="edit-modal-header">
+        <h2>Editar Registro</h2>
+        <button class="edit-close" (click)="closeEditModal()">×</button>
+      </div>
+      <form (submit)="saveEdit(); $event.preventDefault()">
+        <div class="edit-name-group">
+          <div class="edit-label-btn">Nombre</div>
+          <input type="text" class="edit-name-input" [(ngModel)]="editName" name="editName" required>
+        </div>
+
+        <div class="edit-table-container">
+          <div class="edit-table-header">
+            <div>Selección</div>
+            <div>Cantidad</div>
+            <div>Peso</div>
+          </div>
+          <div class="edit-table-row">
+            <div class="edit-row-label">1° ra</div>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit1ra" name="edit1ra" required>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit1raPeso" name="edit1raPeso" step="0.01">
+          </div>
+          <div class="edit-table-row">
+            <div class="edit-row-label">3° ra</div>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit3ra" name="edit3ra" required>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit3raPeso" name="edit3raPeso" step="0.01">
+          </div>
+          <div class="edit-table-row">
+            <div class="edit-row-label">5° ta</div>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit5ta" name="edit5ta" required>
+            <input type="number" class="edit-table-input" [(ngModel)]="edit5taPeso" name="edit5taPeso" step="0.01">
+          </div>
+          <div class="edit-table-row">
+            <div class="edit-row-label">Madura</div>
+            <input type="number" class="edit-table-input" [(ngModel)]="editMadura" name="editMadura" required>
+            <input type="number" class="edit-table-input" [(ngModel)]="editMaduraPeso" name="editMaduraPeso" step="0.01">
+          </div>
+          <div class="edit-table-row with-border">
+            <div class="edit-row-label">Total</div>
+            <input type="text" class="edit-table-input" [value]="editTotalCantidad" readonly>
+            <input type="text" class="edit-table-input" [value]="editTotalPeso + 'kg'" readonly>
+          </div>
+        </div>
+
+        <div class="edit-form-buttons">
+          <button type="submit" class="btn-save">Editar</button>
+          <button type="button" class="btn-cancel" (click)="closeEditModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

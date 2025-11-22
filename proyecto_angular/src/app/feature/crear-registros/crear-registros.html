@@ -1,0 +1,151 @@
+<body>
+    <div class="container">
+        <h1>Nuevo Registro</h1>
+
+        <!-- Sección 1: Registro de fruta -->
+        <div class="section">
+            <div class="section-title">Registra tu nueva cosecha del día de hoy</div>
+            <div class="label">¿Que fruta has cosechado hoy? 🥭</div>
+            <button class="button">Escribe el nombre de la fruta</button>
+            <input type="text" class="input-field" placeholder="ejem: Manzana Golden" [(ngModel)]="nombreFruta">
+        </div>
+
+        <!-- Sección 2: Contabilizar cosecha -->
+        <div class="section">
+            <div class="section-title">Ahora contabilizaremos tu cosecha</div>
+            <button class="button">En cada seleccion coloca la cantidad correspondiente</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seleccion</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">1ª ra</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small cantidad-input"
+                                    [(ngModel)]="registrosCantidad[0].cantidad" min="0" placeholder="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">3ª ra</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small cantidad-input"
+                                    [(ngModel)]="registrosCantidad[1].cantidad" min="0" placeholder="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">5ª ta</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small cantidad-input"
+                                    [(ngModel)]="registrosCantidad[2].cantidad" min="0" placeholder="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell madura">Madura</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small cantidad-input"
+                                    [(ngModel)]="registrosCantidad[3].cantidad" min="0" placeholder="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="divider"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell total">Total</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small" [value]="totalCantidad" readonly>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección 3: Pesar -->
+        <div class="section">
+            <div class="section-title">Ahora toca pesar</div>
+            <button class="button">En cada seleccion coloca el peso correspondiente</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seleccion</th>
+                            <th>Peso (kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">1ª ra</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small peso-input" [(ngModel)]="registrosPeso[0].peso"
+                                    step="0.01" min="0" placeholder="0.00">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">3ª ra</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small peso-input" [(ngModel)]="registrosPeso[1].peso"
+                                    step="0.01" min="0" placeholder="0.00">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell">5ª ta</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small peso-input" [(ngModel)]="registrosPeso[2].peso"
+                                    step="0.01" min="0" placeholder="0.00">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell madura">Madura</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small peso-input" [(ngModel)]="registrosPeso[3].peso"
+                                    step="0.01" min="0" placeholder="0.00">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="divider"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="selection-cell total">Total</div>
+                            </td>
+                            <td>
+                                <input type="number" class="input-small" [value]="totalPeso" step="0.01" readonly>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="save-button" (click)="guardar()">Guardar</button>
+        </div>
+    </div>
+</body>

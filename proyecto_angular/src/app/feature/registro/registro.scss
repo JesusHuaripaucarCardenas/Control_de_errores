@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:host {
+    display: block;
+    background-color: #FBF5E2;
+    font-family: 'Libre Baskerville', serif;
+    padding: 20px;
+    // 🔥 Separación del navbar
+    padding-top: 90px; // 70px navbar + 20px espacio
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.alert {
+    background-color: #7BC77F;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert.hidden {
+    display: none;
+}
+
+.alert-text {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.alert-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.alert-close:hover {
+    opacity: 0.8;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+    outline: none;
+    transition: border-color 0.3s;
+    
+    &::placeholder {
+        font-family: 'Libre Baskerville', serif;
+    }
+}
+
+.search-input:focus {
+    border-color: #7BC77F;
+}
+
+.filter-btn {
+    padding: 12px 24px;
+    background-color: #7BC77F;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.filter-btn:hover {
+    background-color: #6AB36E;
+}
+
+.filter-btn.active {
+    background-color: #6AB36E;
+}
+
+.close-filter {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.date-divider {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 20px;
+    gap: 15px;
+}
+
+.date-divider::before,
+.date-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #333;
+}
+
+.date-divider span {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.record-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.name-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.label-btn {
+    background-color: #7BC77F;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.name-input {
+    flex: 1;
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.table-container {
+    margin-bottom: 20px;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.table-row.with-border {
+    padding-top: 10px;
+    border-top: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+.row-label {
+    background-color: #7BC77F;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.table-input {
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    flex: 1;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-edit {
+    background-color: #4A90E2;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #E74C3C;
+    color: white;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 15px;
+    padding: 0;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #7BC77F;
+    color: white;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-body p {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-option {
+    background-color: #7BC77F;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.filter-option:hover {
+    background-color: #6AB36E;
+}
+
+.filter-option.selected {
+    background-color: #5A9D5E;
+}
+
+/* Modal de Edición */
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.edit-modal.active {
+    display: flex;
+}
+
+.edit-modal-content {
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.edit-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.edit-modal-header h2 {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.edit-close {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 28px;
+    font-family: 'Libre Baskerville', serif;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Responsive
+@media (max-width: 768px) {
+    :host {
+        padding: 15px;
+        padding-top: 85px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    :host {
+        padding: 10px;
+        padding-top: 80px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+}

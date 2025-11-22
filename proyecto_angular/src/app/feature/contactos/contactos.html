@@ -1,0 +1,305 @@
+
+<h1>Contactos</h1>
+
+<div class="search-container">
+    <input type="text" class="search-box" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="onSearch()">
+    <button class="btn-add" (click)="openModalTipo()">Agregar Contacto</button>
+</div>
+
+<div class="filter-container">
+    <button class="btn-filters" (click)="openModalFiltros()">Filtros</button>
+    <div class="right-buttons">
+        <button class="btn-supermercado" [class.active]="isTypeFilterActive('supermercado')"
+            (click)="filterByType('supermercado')">
+            Supermercado
+        </button>
+        <button class="btn-mercado" [class.active]="isTypeFilterActive('mercado')" (click)="filterByType('mercado')">
+            Mercado
+        </button>
+    </div>
+</div>
+
+<div class="contacts-grid">
+    <div *ngFor="let contact of filteredContacts" class="contact-card" [class.deleted]="contact.deleted">
+
+        <div class="badges">
+            <span class="badge" [class.badge-supermercado]="contact.type === 'supermercado'"
+                [class.badge-mercado]="contact.type === 'mercado'">
+                {{ contact.type === 'supermercado' ? 'Supermercado' : 'Mercado' }}
+            </span>
+
+            <ng-container *ngIf="!contact.deleted">
+                <span class="badge badge-editar" (click)="editContact(contact)">Editar</span>
+                <span class="badge badge-eliminar" (click)="deleteContact(contact)">Eliminar</span>
+            </ng-container>
+
+            <ng-container *ngIf="contact.deleted">
+                <span class="badge badge-recuperar" (click)="recoverContact(contact)">Recuperar</span>
+            </ng-container>
+        </div>
+
+        <div class="contact-name">{{ contact.name }}</div>
+
+        <div class="contact-info">
+            <div><span>Ciudad:</span><span>{{ contact.city }}</span></div>
+            <div><span>Distrito:</span><span>{{ contact.district }}</span></div>
+
+            <ng-container *ngIf="contact.type === 'supermercado'">
+                <div><span>RUC:</span><span>{{ contact.ruc }}</span></div>
+                <div><span>Celular:</span><span>{{ contact.phone }}</span></div>
+                <div><span>Email:</span><span>{{ contact.email }}</span></div>
+            </ng-container>
+
+            <ng-container *ngIf="contact.type === 'mercado'">
+                <div><span>Mercado:</span><span>{{ contact.marketName }}</span></div>
+                <div><span>Puesto:</span><span>{{ contact.stall }}</span></div>
+                <div><span>D.N.I:</span><span>{{ contact.dni }}</span></div>
+                <div><span>Celular:</span><span>{{ contact.phone }}</span></div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de selección de tipo -->
+<div class="modal-overlay" [class.active]="showModalTipo" (click)="closeAllModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Contacto Nuevo</h2>
+            <button class="close-modal" (click)="closeAllModals()">×</button>
+        </div>
+        <div class="modal-body">
+            <p class="question">¿Qué contacto quieres agregar?</p>
+            <div class="type-buttons">
+                <button class="btn-type" (click)="openFormSupermercado()">Supermercado</button>
+                <button class="btn-type" (click)="openFormMercado()">Mercado</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de filtros -->
+<div class="modal-overlay" [class.active]="showModalFiltros" (click)="closeAllModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Filtros</h2>
+            <button class="close-modal" (click)="closeAllModals()">×</button>
+        </div>
+        <div class="modal-body">
+            <p class="question">¿De qué manera quieres ordenar tus contactos?</p>
+            <div class="type-buttons">
+                <button class="btn-type" [class.active]="isSortFilterActive('nombre')"
+                    (click)="toggleSortFilter('nombre')">
+                    <span>Nombre</span>
+                    <span class="btn-remove-filter">×</span>
+                </button>
+                <button class="btn-type" [class.active]="isSortFilterActive('ciudad')"
+                    (click)="toggleSortFilter('ciudad')">
+                    <span>Ciudad</span>
+                    <span class="btn-remove-filter">×</span>
+                </button>
+                <button class="btn-type" [class.active]="isSortFilterActive('distrito')"
+                    (click)="toggleSortFilter('distrito')">
+                    <span>Distrito</span>
+                    <span class="btn-remove-filter">×</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal formulario Supermercado -->
+<div class="modal-overlay" [class.active]="showFormSupermercado" (click)="closeAllModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Contacto Nuevo</h2>
+            <button class="close-modal" (click)="closeAllModals()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-type-header">Supermercado</div>
+            <form (ngSubmit)="addContact()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ciudad:</label>
+                        <input type="text" [(ngModel)]="newContact.city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Distrito:</label>
+                        <input type="text" [(ngModel)]="newContact.district" name="district" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre de la tienda:</label>
+                    <input type="text" [(ngModel)]="newContact.name" name="name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>R.U.C:</label>
+                        <input type="text" [(ngModel)]="newContact.ruc" name="ruc" required>
+                    </div>
+                    <div class="form-group">
+                        <label>N° de celular:</label>
+                        <input type="text" [(ngModel)]="newContact.phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" [(ngModel)]="newContact.email" name="email" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal formulario Mercado -->
+<div class="modal-overlay" [class.active]="showFormMercado" (click)="closeAllModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Contacto Nuevo</h2>
+            <button class="close-modal" (click)="closeAllModals()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-type-header">Mercado</div>
+            <form (ngSubmit)="addContact()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ciudad:</label>
+                        <input type="text" [(ngModel)]="newContact.city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Distrito:</label>
+                        <input type="text" [(ngModel)]="newContact.district" name="district" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre del mercado:</label>
+                    <input type="text" [(ngModel)]="newContact.marketName" name="marketName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>N° del puesto:</label>
+                        <input type="text" [(ngModel)]="newContact.stall" name="stall" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" [(ngModel)]="newContact.firstName" name="firstName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Apellido:</label>
+                        <input type="text" [(ngModel)]="newContact.lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI:</label>
+                        <input type="text" [(ngModel)]="newContact.dni" name="dni" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>N° de celular:</label>
+                    <input type="text" [(ngModel)]="newContact.phone" name="phone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar contacto -->
+<div class="modal-overlay" [class.active]="showFormEditar" (click)="closeAllModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Editando Contacto</h2>
+            <button class="close-modal" (click)="closeAllModals()">×</button>
+        </div>
+        <div class="modal-body" *ngIf="editingContact">
+            <div class="form-type-header">
+                {{ editingContact.type === 'supermercado' ? 'Supermercado' : 'Mercado' }}
+            </div>
+
+            <!-- Formulario Supermercado -->
+            <form *ngIf="editingContact.type === 'supermercado'" (ngSubmit)="saveEdit()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ciudad:</label>
+                        <input type="text" [(ngModel)]="editingContact.city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Distrito:</label>
+                        <input type="text" [(ngModel)]="editingContact.district" name="district" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre de la tienda:</label>
+                    <input type="text" [(ngModel)]="editingContact.name" name="name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>R.U.C:</label>
+                        <input type="text" [(ngModel)]="editingContact.ruc" name="ruc" required>
+                    </div>
+                    <div class="form-group">
+                        <label>N° de celular:</label>
+                        <input type="text" [(ngModel)]="editingContact.phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" [(ngModel)]="editingContact.email" name="email" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Guardar</button>
+                </div>
+            </form>
+
+            <!-- Formulario Mercado -->
+            <form *ngIf="editingContact.type === 'mercado'" (ngSubmit)="saveEdit()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ciudad:</label>
+                        <input type="text" [(ngModel)]="editingContact.city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Distrito:</label>
+                        <input type="text" [(ngModel)]="editingContact.district" name="district" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre del mercado:</label>
+                    <input type="text" [(ngModel)]="editingContact.marketName" name="marketName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>N° del puesto:</label>
+                        <input type="text" [(ngModel)]="editingContact.stall" name="stall" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" [(ngModel)]="editingContact.firstName" name="firstName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Apellido:</label>
+                        <input type="text" [(ngModel)]="editingContact.lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI:</label>
+                        <input type="text" [(ngModel)]="editingContact.dni" name="dni" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>N° de celular:</label>
+                    <input type="text" [(ngModel)]="editingContact.phone" name="phone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

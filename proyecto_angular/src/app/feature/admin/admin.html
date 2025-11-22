@@ -1,0 +1,172 @@
+<div class="container">
+  <!-- Header con botón de agregar y filtros -->
+  <div class="header-section">
+    <h1 class="title">Gestión de Vendedores</h1>
+    
+    <div class="actions-bar">
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="btn-icon">+</span> Agregar Vendedor
+      </button>
+      
+      <div class="filters">
+        <select class="filter-select" [(ngModel)]="filterType" (change)="onFilterChange()">
+          <option value="all">Todos</option>
+          <option value="active">Activos</option>
+          <option value="inactive">Inactivos</option>
+          <option value="alphabetical">A-Z (Alfabético)</option>
+        </select>
+        
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Buscar por nombre o DNI..."
+          [(ngModel)]="searchText"
+          (input)="onSearchChange()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de vendedores -->
+  <div class="table-container">
+    <table class="sellers-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre Completo</th>
+          <th>DNI</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let seller of filteredSellers" [class.inactive-row]="seller.state === 'I'">
+          <td>{{ seller.idSeller }}</td>
+          <td>{{ getFullName(seller) }}</td>
+          <td>{{ seller.dni }}</td>
+          <td>{{ seller.email }}</td>
+          <td>{{ seller.phone }}</td>
+          <td>
+            <span [class]="getStateClass(seller.state)">
+              {{ getStateLabel(seller.state) }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <button 
+              class="btn-action btn-edit" 
+              (click)="openEditModal(seller)"
+              title="Editar">
+              ✏️
+            </button>
+            <button 
+              *ngIf="seller.state === 'A'"
+              class="btn-action btn-delete" 
+              (click)="deleteSeller(seller.idSeller)"
+              title="Desactivar">
+              🗑️
+            </button>
+            <button 
+              *ngIf="seller.state === 'I'"
+              class="btn-action btn-restore" 
+              (click)="restoreSeller(seller.idSeller)"
+              title="Restaurar">
+              ♻️
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredSellers.length === 0">
+          <td colspan="7" class="no-data">No se encontraron vendedores</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ modalMode === 'add' ? 'Contacto Nuevo' : 'Editando Vendedor' }}</h2>
+        <button class="btn-close" (click)="closeModal()">✕</button>
+      </div>
+      
+      <form class="modal-form" (ngSubmit)="saveSeller()">
+        <div class="form-group">
+          <label for="firstName">Nombre *</label>
+          <input 
+            type="text" 
+            id="firstName"
+            [(ngModel)]="currentSeller.firstName"
+            name="firstName"
+            required
+            maxlength="100"
+            placeholder="Ingrese el nombre"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Apellido *</label>
+          <input 
+            type="text" 
+            id="lastName"
+            [(ngModel)]="currentSeller.lastName"
+            name="lastName"
+            required
+            maxlength="100"
+            placeholder="Ingrese el apellido"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dni">DNI *</label>
+          <input 
+            type="text" 
+            id="dni"
+            [(ngModel)]="currentSeller.dni"
+            name="dni"
+            required
+            maxlength="8"
+            pattern="[0-9]{8}"
+            placeholder="12345678"
+            [disabled]="modalMode === 'edit'"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email"
+            [(ngModel)]="currentSeller.email"
+            name="email"
+            maxlength="100"
+            placeholder="ejemplo@correo.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Teléfono</label>
+          <input 
+            type="text" 
+            id="phone"
+            [(ngModel)]="currentSeller.phone"
+            name="phone"
+            maxlength="9"
+            pattern="[0-9]{9}"
+            placeholder="987654321"
+          />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {{ modalMode === 'add' ? 'Guardar' : 'Actualizar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

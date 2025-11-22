@@ -1,0 +1,84 @@
+<!-- navbar.html -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<nav class="navbar">
+  <div class="left-section">
+    <button class="menu-btn" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo-container">
+  <a routerLink="/inicio" class="logo-placeholder">
+    <img src="" alt="Logo">
+  </a>
+</div>
+
+  </div>
+  <div class="right-section">
+    <button class="icon-btn" routerLink="/pedidos">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge"></span>
+    </button>
+    <a routerLink="/carrito" class="icon-btn">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
+    <a routerLink="/admin" class="icon-btn">
+      <i class="fas fa-user-circle"></i>
+    </a>
+  </div>
+</nav>
+
+<div class="overlay" [class.active]="isMenuOpen" (click)="toggleMenu()"></div>
+
+<div class="sidebar-menu" [class.active]="isMenuOpen">
+  <div class="sidebar-header">
+    <h2>Menú</h2>
+    <button class="close-btn" (click)="toggleMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="menu-items">
+    <a routerLink="/inicio" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-home"></i>
+      <span>Inicio</span>
+    </a>
+    <a routerLink="/tienda" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-store"></i>
+      <span>Tienda</span>
+    </a>
+    <a routerLink="/contactos" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-address-book"></i>
+      <span>Contactos</span>
+    </a>
+    <a routerLink="/registro" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-clipboard-list"></i>
+      <span>Registros</span>
+    </a>
+    <a routerLink="/crear-registros" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-plus-circle"></i>
+      <span>Crear Registros</span>
+    </a>
+    <a routerLink="/biblioteca" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-book"></i>
+      <span>Biblioteca</span>
+    </a>
+    <a routerLink="/publicacion-venta" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-tag"></i>
+      <span>Vender</span>
+    </a>
+    <a routerLink="/carrito" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Carrito</span>
+    </a>
+    <a routerLink="/pedidos" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-box"></i>
+      <span>Pedidos</span>
+    </a>
+    <a routerLink="/forma-pago" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-credit-card"></i>
+      <span>Forma de Pago</span>
+    </a>
+    <a routerLink="/admin" class="menu-item" (click)="closeMenu()">
+      <i class="fas fa-user-shield"></i>
+      <span>Admin</span>
+    </a>
+  </div>
+</div>

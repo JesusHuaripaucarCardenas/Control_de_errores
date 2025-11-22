@@ -1,0 +1,180 @@
+.custom-popup {
+  font-family: 'Libre Baskerville', serif !important;
+  border-radius: 15px !important;
+  padding: 20px !important;
+}
+
+.custom-popup .swal2-title {
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+  color: #333 !important;
+}
+
+.custom-popup .swal2-html-container {
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 14px !important;
+  color: #555 !important;
+  line-height: 1.6 !important;
+}
+
+.custom-confirm-button {
+  background-color: #7BC77F !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 25px !important;
+  padding: 12px 30px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  font-family: 'Libre Baskerville', serif !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.custom-confirm-button:hover {
+  background-color: #6AB36E !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(123, 199, 127, 0.3) !important;
+}
+
+.custom-confirm-button:focus {
+  box-shadow: 0 0 0 3px rgba(123, 199, 127, 0.3) !important;
+}
+
+.custom-cancel-button {
+  background-color: #6c757d !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 25px !important;
+  padding: 12px 30px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  font-family: 'Libre Baskerville', serif !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.custom-cancel-button:hover {
+  background-color: #5a6268 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+}
+
+.custom-cancel-button:focus {
+  box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.3) !important;
+}
+
+.custom-popup .swal2-icon {
+  border-width: 3px !important;
+}
+
+.custom-popup .swal2-icon.swal2-success {
+  border-color: #7BC77F !important;
+}
+
+.custom-popup .swal2-icon.swal2-success .swal2-success-ring {
+  border-color: rgba(123, 199, 127, 0.3) !important;
+}
+
+.custom-popup .swal2-icon.swal2-success [class^='swal2-success-line'] {
+  background-color: #7BC77F !important;
+}
+
+.custom-popup .swal2-icon.swal2-error {
+  border-color: #E74C3C !important;
+}
+
+.custom-popup .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+  background-color: #E74C3C !important;
+}
+
+.custom-popup .swal2-icon.swal2-warning {
+  border-color: #ff9800 !important;
+  color: #ff9800 !important;
+}
+
+.custom-popup .swal2-icon.swal2-info {
+  border-color: #4A90E2 !important;
+  color: #4A90E2 !important;
+}
+
+.custom-popup .swal2-icon.swal2-question {
+  border-color: #87ADBD !important;
+  color: #87ADBD !important;
+}
+
+.custom-popup .swal2-timer-progress-bar {
+  background-color: #7BC77F !important;
+}
+
+.swal2-toast {
+  font-family: 'Libre Baskerville', serif !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.swal2-toast .swal2-title {
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 14px !important;
+}
+
+.custom-popup ul {
+  margin: 10px 0 !important;
+  padding-left: 20px !important;
+}
+
+.custom-popup ul li {
+  margin: 8px 0 !important;
+  text-align: left !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.swal2-container {
+  z-index: 10000 !important;
+}
+
+.custom-popup.swal2-show {
+  animation: swal2-show 0.3s !important;
+}
+
+.custom-popup.swal2-hide {
+  animation: swal2-hide 0.15s !important;
+}
+
+@media (max-width: 768px) {
+  .custom-popup {
+    width: 90% !important;
+    padding: 15px !important;
+  }
+
+  .custom-popup .swal2-title {
+    font-size: 20px !important;
+  }
+
+  .custom-popup .swal2-html-container {
+    font-size: 13px !important;
+  }
+
+  .custom-confirm-button,
+  .custom-cancel-button {
+    padding: 10px 25px !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-popup {
+    width: 95% !important;
+  }
+
+  .custom-popup .swal2-title {
+    font-size: 18px !important;
+  }
+
+  .custom-confirm-button,
+  .custom-cancel-button {
+    padding: 8px 20px !important;
+    font-size: 12px !important;
+  }
+}
